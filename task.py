@@ -1,23 +1,27 @@
 import time
-
-TODO_LIST = []
+from storage import load_tasks, save_tasks
 
 def add_task(task):
-    TODO_LIST.append(task) 
+    tasks = load_tasks()
+    tasks.append(task)
+    save_tasks(tasks)
+    print(f"Task '{task}' added to the list.")
 
 def remove_task(task):
-    if task in TODO_LIST:
-        TODO_LIST.remove(task)
+    tasks = load_tasks()
+    if task in tasks:
+        tasks.remove(task)
+        save_tasks(tasks)
         print(f"Task '{task}' removed from the list.")
-        time.sleep(2)
     else:
         print(f"Task '{task}' not found in the list.")
-        time.sleep(2)
+    time.sleep(2)
 
 def view_tasks():
-    if TODO_LIST:
+    tasks = load_tasks()
+    if tasks:
         print("TODO List:")
-        for i, task in enumerate(TODO_LIST, start=1):
+        for i, task in enumerate(tasks, start=1):
             print(f"{i}. {task}")
     else:
         print("TODO list is empty.")
